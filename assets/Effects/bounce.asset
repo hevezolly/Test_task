@@ -9,9 +9,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c590f08ac0ea56a4898fd4e006fc3c4c, type: 3}
+  m_Script: {fileID: 11500000, guid: 077724696bdcf2140a2eebd3fe8afd3e, type: 3}
   m_Name: bounce
   m_EditorClassIdentifier: 
-  duration: 0.25
-  overshoot: 3
-  ease: 27
+  amount: 0.2
+  duration: 0.6
+  motion:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.002494812
+      value: -0.00021362305
+      inSlope: 0.0059126946
+      outSlope: 0.0059126946
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.20779599
+    - serializedVersion: 3
+      time: 0.42299533
+      value: 0.49931318
+      inSlope: -0.010157358
+      outSlope: -0.010157358
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8884967
+      value: -0.09333809
+      inSlope: 0.025136702
+      outSlope: 0.025136702
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.002512
+      value: -0.00021362305
+      inSlope: 0.004768337
+      outSlope: 0.004768337
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5739346
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

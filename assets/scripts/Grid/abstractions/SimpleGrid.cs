@@ -4,11 +4,14 @@ using UnityEngine;
 using Containers;
 using Effects;
 using DG.Tweening;
+using CustomInput;
 
 namespace Grid {
     public abstract class SimpleGrid<G> : MonoBehaviour, IGrid, IContainerProvider
         where G: IGridCell
     {
+        [SerializeField]
+        private InputProvider input;
         protected abstract Vector2 GridCellSize { get; }
 
         private Dictionary<Vector2Int, G> cells = new Dictionary<Vector2Int, G>();
@@ -24,10 +27,11 @@ namespace Grid {
             return cells[position].Container;
         }
 
-        public void UpdateGridDimentions(Vector2Int newDimentions, IEffect effect)
+        public Sequence UpdateGridDimentions(Vector2Int newDimentions, IEffect effect)
         {
             var newCells = new Dictionary<Vector2Int, G>();
             var creationSequence = DOTween.Sequence();
+            input.Block();
             for (var y = Mathf.Max(newDimentions.y, Dimentions.y) - 1; y >= 0 ; y--)
             {
                 for (var x = 0; x < Mathf.Max(newDimentions.x, Dimentions.x); x++)
@@ -48,9 +52,10 @@ namespace Grid {
                         cellDestructor.Destruct(cells[cord]);
                 }
             }
+            creationSequence.AppendCallback(() => input.Unblock());
             cells = newCells;
             Dimentions = newDimentions;
-            creationSequence.Play();
+            return creationSequence;
         }
 
         protected abstract Vector2 CellCoordinateToPosition(Vector2Int cord, Vector2Int dimentions);

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3eb28304f3dd6d4a86a834537a79483, type: 3}
   m_Name: Rotate 90 degrees
   m_EditorClassIdentifier: 
-  angle: 90
+  angle: -90

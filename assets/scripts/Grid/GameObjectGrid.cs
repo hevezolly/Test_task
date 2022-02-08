@@ -4,6 +4,8 @@ using UnityEngine;
 using Containers;
 using DG.Tweening;
 using Effects;
+using CustomInput;
+using UnityEngine.Events;
 
 namespace Grid {
     public class GameObjectGrid : SimpleGrid<GameObjectGridCell>,
@@ -20,24 +22,24 @@ namespace Grid {
         
         [SerializeField]
         private Vector2Int DisplayDimentions;
-
-        [SerializeField]
-        private Effect effect;
         protected override ICellProvider<GameObjectGridCell> cellProvider => this;
 
         protected override ICellDestructor<GameObjectGridCell> cellDestructor => this;
+
+        [SerializeField]
+        private IContainerEvent containerSelectedEvent;
 
         protected override Vector2 GridCellSize => gridCellSize;
 
         private void Start()
         {
-            UpdateGridDimentions(DisplayDimentions, effect);
         }
 
         public GameObjectGridCell CreateCell(out Sequence creationSeq, IEffect effect = null)
         {
             var cell = Instantiate(baseCellObject, transform);
             cell.gameObject.SetActive(false);
+            cell.CellTapEvent.AddListener(InvokeContainerSelected);
             creationSeq = DOTween.Sequence();
             creationSeq.AppendCallback(() => cell.gameObject.SetActive(true));
             if (effect != null)
@@ -47,8 +49,14 @@ namespace Grid {
             return cell;
         }
 
+        private void InvokeContainerSelected(IContainer container)
+        {
+            containerSelectedEvent?.Invoke(container);
+        }
+
         public void Destruct(GameObjectGridCell cell)
         {
+            cell.CellTapEvent.RemoveAllListeners();
             Destroy(cell.gameObject);
         }
 
@@ -64,6 +72,8 @@ namespace Grid {
             Gizmos.matrix = transform.localToWorldMatrix;
             Gizmos.color = Color.yellow;
             Vector2Int dim = DisplayDimentions;
+            if (Application.isPlaying)
+                dim = Dimentions;
             for (var y = 0; y < dim.y; y++)
             {
                 for (var x = 0; x < dim.x; x++)

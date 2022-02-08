@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Containers;
 using Effects;
+using DG.Tweening;
 
 namespace Grid
 {
     public interface IGrid
     {
         Vector2Int Dimentions { get; }
-        void UpdateGridDimentions(Vector2Int dimentions, IEffect effect);
+        Sequence UpdateGridDimentions(Vector2Int dimentions, IEffect effect);
     }
 
     public interface IContainerProvider

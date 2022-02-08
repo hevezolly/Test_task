@@ -17,8 +17,8 @@ namespace Effects
         public override Sequence ApplyTo(GameObject target, bool play)
         {
             var initialScale = target.transform.localScale;
-            target.transform.localScale = Vector3.zero;
             var seq = DOTween.Sequence()
+                .AppendCallback(() => target.transform.localScale = Vector3.zero)
                 .Append(target.transform.DOScale(initialScale, duration).SetEase(ease, overshoot));
             if (play)
                 seq.Play();

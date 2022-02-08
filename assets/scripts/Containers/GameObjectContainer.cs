@@ -21,22 +21,31 @@ namespace Containers
         private Vector3 initialScale;
         private Quaternion initialRotation;
 
+        private Vector3 scaleToResetTo;
+
         private void Awake()
         {
             initialRotation = baseGameObject.transform.rotation;
             initialScale = baseGameObject.transform.localScale;
+            scaleToResetTo = initialScale;
         }
 
         private void ResetBaseGameObject()
         {
             baseGameObject.transform.rotation = initialRotation;
-            baseGameObject.transform.localScale = initialScale;
+            baseGameObject.transform.localScale = scaleToResetTo;
         }
 
         public void OnAssign(IDisplayedObject displayObject)
         {
             ResetBaseGameObject();
             this.displayObject = displayObject;
+        }
+
+        public void OnResize(Vector2 parentScale)
+        {
+            baseGameObject.transform.localScale = new Vector3(initialScale.x / parentScale.x, initialScale.y / parentScale.y);
+            scaleToResetTo = baseGameObject.transform.localScale;
         }
     }
 }
